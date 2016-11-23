@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="LOG">
+
+<title>LOG</title>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1><b>Daftar Log</b></h1>
+  <h1>Basis Data Lanjut</h1>
+
+</div>
+<div class="container">
+
+		
+  <div class="row">
+  <div class="col-md-12">
+	<button type="button" class="btn btn-success">Tambah</button>
+    <div class="table-responsive">
+      <table class="table">
+    <thead>
+      <tr>
+        <th>Kategori</th>
+        <th>Tanggal</th>
+        <th>Jam Mulai</th>
+		<th>Jam Selesai</th>
+		<th>Deskripsi Kerja</th>
+		<th>Status</th>
+		
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+		<td>Mengoreksi</td>
+        <td>12-09-2016</td>
+        <td>09:00</td>
+		<td>11:00</td>
+		<td>Tugas 2</td>
+		<td>-</td>
+		<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
+		<span class="glyphicon glyphicon-pencil"></span></button>
+		
+        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+		<span class="glyphicon glyphicon-trash"></span></button>
+		</td>
+      </tr>
+      <tr class="success">
+       <td>mengawas</td>
+        <td>12-09-2016</td>
+        <td>10:00</td>
+		<td>11:00</td>
+		<td>UTS</td>
+		<td>Disetujui</td>
+		<td></td>
+      </tr>
+	  <tr>
+        <td>Mengoreksi</td>
+        <td>10-09-2016</td>
+        <td>10:00</td>
+		<td>12:00</td>
+		<td>Tugas 1</td>
+		<td>Ditolak</td>
+		
+      </tr>
+	  
+	  
+	  
+   
+    </tbody>
+  </table>
+    </div>
+	</div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<style>
+*{
+    font-family: arial, sans-serif;
+}
+table {
+    border-collapse: collapse;
+    width: 60%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #FFF;
+}
+.button {
+    font-family: arial, sans-serif;
+	font-size:16px;
+  color:#08233e;
+  background-color:rgba(255,204,0,1);
+  border:0px;
+  -moz-border-radius:10px;
+  -webkit-border-radius:10px;
+  -moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+  -webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+  cursor:pointer;
+  padding:10px;
+  color:#FFF;
+ }
+ .button:hover {
+  background-color:rgba(255,204,0,0.8);
+ }
+</style>
+
+<script>
+ 	function hanyaAngka(evt) {
+		var charCode = (evt.which) ? evt.which : event.keyCode
+		if (charCode > 31 && (charCode < 48 || charCode > 57))
+		return false;
+		return true;
+	}
+</script>
+<div class="jumbotron text-center">
+	<h1><b>Data Pelamaran</b></h1>
+</div>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Nama </p></td>
+    <td><p> Andi Sartono </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Email </p></td>
+    <td><p> andi@sartono.com </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> NPM </p></td>
+    <td><p> 12004950234 </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Telepon </p></td>
+    <td><p> 081739479287 </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Waktu Kosong </p></td>
+    <td><p> Rabu 09:00-12:00 Kamis 16:00-18:00 </p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Detail Rekening </p></td>
+    <td><p> BNI &ndash; 9086213<br>
+        a/n ANDI SARTONO </p></td>
+  </tr>
+</table>
+<br/>
+<div class="jumbotron text-center">
+	<h1><b>Riwayat Akademis </b></h1>
+</div>
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Basis Data Lanjut <em> (mata kuliah yang dilamar) </em></p></td>
+    <td><p><strong> A- </strong><em> (tampilkan nilainya) </em></p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Prasyarat1: Basis Data (ambil dari data prasyarat) </p></td>
+    <td><p><em> (tidak perlu ditampilkan nilainya) </em></p></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Prasyarat2: - </p></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td bgcolor="#f1f4fe"><p> Prasyarat3: - </p></td>
+    <td></td>
+  </tr>
+</table>
+<br/>
+<p>
+	Silahkan klik tombol Rekomendasikan jika ingin memilih Andi Sartono sebagai Asisten, Administrator akan menerima lamaran mahasiswa tersebut jika mahasiswa tersebut jika beban jam kerja yang dimiliki oleh mahasiswa tersebut masih memadai 
+</p>
+<form action="proses_rekom.php" method="post">
+		<input type="submit" class="button" value="Rekomendasikan" style="background-color:#0099FF; "/>
+</form>

@@ -1,3 +1,13 @@
+<?php 
+	//setname dan post_id
+	session_start(); // Starting Session
+	 $no_id = "197007202000031007";	
+	
+	if(isset($_SESSION['userlogin'])){
+	 $status = $_SESSION['userlogin'];
+	 $no_id = "197107201998031001";
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +28,7 @@
     
       <table class="table table-bordered">
     <thead>
-	<tr class="success">
+      <tr class="success">
         <th>No</th>
         <th>Mata Kuliah</th>
         <th>Semester</th>
@@ -27,18 +37,13 @@
 		<th>Log Asisten</th>
       </tr>
     </thead>
-	
-      
     <tbody>
-	<?php
+      <?php
 	$npm =	"1127242324";
 	$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
 	$result = pg_query($dbconn, "select mk.idkelasmk, mk.kode_mk, m.nama, mk.semester, mk.tahun
-from kelas_mk mk, mata_kuliah m
-where mk.kode_mk = m.kode order by mk.idkelasmk asc;");
-	$result2 = pg_query($dbconn, "select mk.idkelasmk, d.nama
-	from kelas_mk mk, mata_kuliah m, dosen_kelas_mk dkm, dosen d
-	where mk.kode_mk = m.kode and dkm.idkelasmk = mk.idkelasmk and dkm.nip = d.nip order by mk.idkelasmk;");
+from kelas_mk mk, mata_kuliah m, dosen_kelas_mk dkm
+where mk.kode_mk = m.kode and mk.idkelasmk=dkm.idkelasmk and dkm.nip ='".$no_id."'order by mk.idkelasmk asc;");
 	if (!$result) {
 	  echo "An error occurred.\n";
 	  exit;
@@ -55,7 +60,7 @@ where mk.kode_mk = m.kode order by mk.idkelasmk asc;");
 	  } else{
          $semester = "pendek";
 	  }
-	  $matkul =$row[1]." - ".$row[2];
+	  $matkul = $row[1]." - ".$row[2];
 	  echo "<tr><td>".$row[0]."</td>"."<td>".$matkul."</td>"."<td>".$semester."</td>"."<td>".$row[4]."<td>";
 	  $result3 = pg_query($dbconn, "select mk.idkelasmk, d.nama
 	from kelas_mk mk, mata_kuliah m, dosen_kelas_mk dkm, dosen d
@@ -76,11 +81,10 @@ where mk.kode_mk = m.kode order by mk.idkelasmk asc;");
 		  
 	  }
 	  echo substr($tmp, 0, -7);
-	  echo "</td>"."<td><a href=\"log_detil_mhs.php\">lihat</a></td></tr>";
+	  echo "</td>"."<td><a href=\"log_detil_dosen.php?id_kelas_mk=".$row[0]."&matkul=".$matkul."\">lihat</a></td></tr>";
 	}
 	}
 	?>
-     
 	  
    
     </tbody>

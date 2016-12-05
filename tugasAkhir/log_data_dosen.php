@@ -18,9 +18,10 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres pas
  else{
 	 $term=3;
  }
+
  $result = pg_query($dbconn, "select k.kategori, to_char(l.tanggal,'dd-mm-yyyy') as tanggal, to_char(l.jam_mulai, 'HH24:MI') as jam_mulai,to_char(l.jam_selesai, 'HH24:MI') as jam_selesai, l.deskripsi_kerja, s.status, EXTRACT(HOUR FROM (jam_selesai - jam_mulai)) as Durasi, l.id
 								 from log l, kategori_log k, status_log s, lamaran la, lowongan lo, kelas_mk mk
-								 where l.id_kat_log = k.id and l.id_st_log = s.id and l.idlamaran=la.idlamaran and la.idlowongan=lo.idlowongan and lo.idkelasmk=mk.idkelasmk and mk.semester='$term';");
+								 where l.npm='$npm' and l.id_kat_log = k.id and l.id_st_log = s.id and l.idlamaran='$id' and l.idlamaran=la.idlamaran and la.idlowongan=lo.idlowongan and lo.idkelasmk=mk.idkelasmk and mk.semester='$term';");
 	
 	if (!$result) {
 	  echo "An error occurred.\n";
@@ -34,6 +35,8 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres pas
 	}
 	
 	if($rows >= 1){
+	$nama = str_replace('_', ' ', $nama);
+
 									
 									while($log = pg_fetch_array($result)){
 									echo "<tr>".
@@ -46,9 +49,9 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres pas
 										"<td>".$log[3]."</td>".
 										"<td>".$log[4]."</td>".
 										"<td>".$log[5]."</td>".
-										(($log[5]!="dilaporkan")?"<td><button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" >tolak</button></td>":"<td class=\"text-center\"><button class=\"btn btn-success btn-xs\" data-toggle=\"modal\" data-target=\"#edit\" >Setujui</button>
+										(($log[5]!="dilaporkan")?"<td id=".$log[7]."show"."><button id='$log[7]' class=\"btn btn-danger btn-xs btnstatus \" data-toggle=\"modal\" data-target=\"#delete\" value=5 >Batal</button></td>":"<td id=".$log[7]."show"."class=\"text-center\" id='$log[7]+\"hide\"'><button id=".$log[7]." class=\"btn btn-success btn-xs btnstatus\" data-toggle=\"modal\" data-target=\"#edit\" value=3>Setujui</button>
 								
-										<button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" >tolak</button>	</td>")."</tr>";
+										<button class=\"btn btn-danger btn-xs btnstatus\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" button id='$log[7]' value=4>tolak</button>	</td>")."</tr>";
 										
 										
 									   

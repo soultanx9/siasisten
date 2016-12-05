@@ -1,11 +1,13 @@
 <?php 
 session_start(); // Starting Session
-
+if(isset($_SESSION['userlogin'])){
+	 $status = $_SESSION['status'];
+	 $no_id = $_SESSION['id'];
+	}
 $id= $_GET['id'];
 $nama= $_GET['nama'];
 $matkul = $_GET['matkul'];
 $npm = $_GET['npm'];
-
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +19,10 @@ $npm = $_GET['npm'];
 	<script src="javascript/bootstrap.js"></script>
 	<script type="text/javascript">
 	
-		function fetch_select(val,id,nama,npm)
+
+		 
+
+	function fetch_select(val,id,nama,npm)
 		{
 		 $.ajax({
 		 type: 'post',
@@ -30,18 +35,82 @@ $npm = $_GET['npm'];
 		 },
 		 success: function (response) {
 		  document.getElementById("log").innerHTML=response; 
+		  $(".btnstatus").on('click', function (e) {
+			  	 alert(this.id);
+			
+			$.ajax({
+							url: "log_status_lamaran.php",
+							type: 'post',
+							data:{
+							valbtn:this.value
+							
+							},
+							success: function(response){
+							
+								$(".hides").hide();
+								$("#show").show();
+
+								
+							}
+						});
+			
+		});
 		 }
 		 });
+		 
+		 
+		 
 		}
-
+	
 		</script>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8"/>
 	<meta name="description" content="LOG">
 
 <title>LOG</title>
 </head>
 <body>
-
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Home</a></li>
+      <?php
+	  if($status == "mahasiswa") {
+      echo "<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Membuat Lamaran</a></li>
+			<li><a href=\"#\">Mengubah Profil</a></li>
+			<li><a href=\"log_mhs.php\">Mengisi Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			";
+							
+		}
+	  elseif($status=="dosen"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li class=\"active\"><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";  
+	  }
+	  elseif($status=="admin"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li class=\"active\"><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";    
+	  }
+							?>
+	  
+    </ul>
+  </div>
+</nav>
 <div class="jumbotron text-center">
   <h1><b>Daftar Log</b></h1>
 
@@ -56,7 +125,7 @@ $npm = $_GET['npm'];
     <table class="table table-bordered">
 					  <tr>
 						<th class="col-md-4 success" >Term</th>
-						<td><select name="termOption" class="form-control" onchange=<?php echo "fetch_select(this.value,'$id','$nama','$npm')";?>>
+						<td><select name="termOption" class="form-control" onchange=<?php $nama = str_replace(' ', '_', $nama); echo "fetch_select(this.value,'$id','$nama','$npm')";?>>
 						<option>Pilih Term</option>
 						<?php
 						$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
@@ -70,6 +139,7 @@ $npm = $_GET['npm'];
 									echo "<option>Pendek, ".$term[0]."</option>";
 						}
 						?>
+						
 						</select></td>
 					  </tr>
 					  <tr>
@@ -78,7 +148,7 @@ $npm = $_GET['npm'];
 					  </tr>
 					  <tr>
 						<th class="col-md-4 success">Nama</th>
-						<td><?php echo $nama;?></td>
+						<td><?php $nama = str_replace('_', ' ', $nama); echo $nama;?></td>
 					  </tr>
 
       </table>

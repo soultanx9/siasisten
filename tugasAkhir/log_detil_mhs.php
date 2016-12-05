@@ -1,3 +1,13 @@
+<?php 
+	//setname dan post_id
+	session_start(); // Starting Session
+	$uname = $_SESSION['userlogin'];
+	$status = $_SESSION['status'];
+	$npm_mhs = $_SESSION['id'];
+	$idkelasmk =$_GET['idkelasmk'];
+	
+	 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,15 +50,58 @@
 <title>LOG</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Home</a></li>
+      <?php
+	  if($status == "mahasiswa") {
+      echo "<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Membuat Lamaran</a></li>
+			<li><a href=\"#\">Mengubah Profil</a></li>
+			<li  class=\"active\"><a href=\"log_mhs.php\">Mengisi Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			";
+							
+		}
+	  elseif($status=="dosen"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";  
+	  }
+	  elseif($status=="admin"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";    
+	  }
+							?>
+	  
+    </ul>
+  </div>
+</nav>
+
 	<?php
 	$tmperror="";
-	if(isset($_GET["kategori"])){
-			$kategori = substr($_GET["kategori"],0,1);
-			$tanggal = $_GET["tanggal"];
-			$jam_mulai = $tanggal." ".$_GET["jam_mulai"];
-			$jam_selesai = $tanggal." ".$_GET["jam_selesai"];
-			$deskripsi_kerja = $_GET["deskripsi_kerja"];
-			$npm =	"1127242324";		
+	if(isset($_POST["kategori"])){
+			$kategori = substr($_POST["kategori"],0,1);
+			$tanggal = $_POST["tanggal"];
+			$jam_mulai = $tanggal." ".$_POST["jam_mulai"];
+			$jam_selesai = $tanggal." ".$_POST["jam_selesai"];
+			$deskripsi_kerja = $_POST["deskripsi_kerja"];
+			$npm =$npm_mhs.'';		
 			$default = 1;
 			$conn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
 			$result = pg_query($conn, "select max(id) from log");
@@ -56,8 +109,16 @@
 			while($tmp = pg_fetch_array($result)){
 				$id = $tmp[0]+1;
 			}
+			
+			$resulttmp = pg_query($conn, "select idlamaran from lamaran la, lowongan lo
+			where la.npm='$npm' and la.id_st_lamaran=3 and la.idlowongan=lo.idlowongan and lo.idkelasmk='$idkelasmk';");
+			$idlamaran;		
+			while($tmp3 = pg_fetch_array($resulttmp)){
+				$idlamaran = $tmp3[0];
+			}
+						
 			$sql = "INSERT into log (id, idlamaran, npm, id_kat_log, id_st_log, tanggal, jam_mulai, jam_selesai, deskripsi_kerja) 
-			VALUES('$id',113,'$npm','$kategori','$default',to_timestamp('$tanggal','YYYY/MM/DD'),to_timestamp('$jam_mulai','YYYY/MM/DD hh24:mi'),to_timestamp('$jam_selesai','YYYY/MM/DD hh24:mi'), '$deskripsi_kerja')";
+			VALUES('$id','$idlamaran','$npm','$kategori','$default',to_timestamp('$tanggal','YYYY/MM/DD'),to_timestamp('$jam_mulai','YYYY/MM/DD hh24:mi'),to_timestamp('$jam_selesai','YYYY/MM/DD hh24:mi'), '$deskripsi_kerja')";
 			
 						
 			if(pg_query($conn, $sql)){
@@ -102,9 +163,16 @@
     <tbody>
 	<?php
 	$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+	$resulttmp = pg_query($dbconn, "select idlamaran from lamaran la, lowongan lo
+			where la.npm='$npm_mhs' and la.id_st_lamaran=3 and la.idlowongan=lo.idlowongan and lo.idkelasmk='$idkelasmk';
+			");
+			$idlamaran;		
+			while($tmp3 = pg_fetch_array($resulttmp)){
+				$idlamaran = $tmp3[0];
+			}
 	$result = pg_query($dbconn, "select k.kategori, to_char(l.tanggal,'dd-mm-yyyy') as tanggal, to_char(l.jam_mulai, 'HH24:MI') as jam_mulai,to_char(l.jam_selesai, 'HH24:MI') as jam_selesai, l.deskripsi_kerja, s.status
 								 from log l, kategori_log k, status_log s
-								 where l.id_kat_log = k.id and l.id_st_log = s.id;");
+								 where l.idlamaran='$idlamaran' and l.id_kat_log = k.id and l.id_st_log = s.id and l.npm = '$npm_mhs';");
 	
 	if (!$result) {
 	  echo "An error occurred.\n";
@@ -149,8 +217,8 @@
     <div class="vertical-alignment-helper">
         <div class="modal-dialog vertical-align-center">
             <div class="modal-content">
-				<form name="myForm" action="log_detil_mhs.php" onsubmit="return validateForm()" method="get">
-					
+				<form name="myForm" action="log_detil_mhs.php?idkelasmk=<?php echo htmlspecialchars($_GET['idkelasmk']);?>" onsubmit="return validateForm()" method="post">
+				<input type="hidden" name="idkelasmk" value="<?php echo htmlspecialchars($_GET['idkelasmk']);?>">	
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 

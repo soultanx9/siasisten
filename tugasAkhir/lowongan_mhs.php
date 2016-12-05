@@ -1,3 +1,11 @@
+<?php 
+	//setname dan post_id
+	session_start(); // Starting Session
+	$uname = $_SESSION['userlogin'];
+	$status = $_SESSION['status'];
+	$npm_mhs = $_SESSION['id'];
+	 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,10 +14,6 @@
 	<script src="javascript/jquery.min.js"></script>
 	<script src="javascript/bootstrap.js"></script>
 	
-	<script>
-	
-	</script>
-	
 	<meta charset="UTF-8">
 	<meta name="description" content="LOWONGAN">
 
@@ -17,37 +21,49 @@
 </head>
 <body>
 
-<?php
-	$tmperror="";
-	if(isset($_GET["kode"])){
-			$kode = $_GET["kode"];
-			$mata_kuliah = $_GET["mata_kuliah"];
-			$dosen = $_GET["dosen"];
-			$status = substr($_GET["status"],0,1);
-			$nip =	"197107201998031001";		
-			$default = 'DDP';
-			$conn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
-			$result = pg_query($conn, "select max(idlowongan) from lowongan");
-			$idlowongan;		
-			while($tmp = pg_fetch_array($result)){
-				$idlowongan = $tmp[0]+1;
-			}
-			$sql = "INSERT into lowongan (idlowongan, idkelasmk, status, jumlah_asisten, syarat_tambahan, nipdosenpembuka) 
-			VALUES('$idlowongan',21000,'$status',3,$default,'$nip')";
-			
-						
-			if(pg_query($conn, $sql)){
-			$tmperror = "<div class=\"alert alert-success fade in\">
-								<a href=\"#\" class=\"close\" data-dismiss\=\"alert\">&times;</a>Penyimpanan berhasil
-										
-							</div>";
-			}else{
-				$tmperror = "something wrong";
-			}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">SIASISTEN</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Home</a></li>
+      <?php
+	  if($status == "mahasiswa") {
+      echo "<li><a href=\"lowongan_mhs.php\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Membuat Lamaran</a></li>
+			<li><a href=\"#\">Mengubah Profil</a></li>
+			<li  class=\"active\"><a href=\"log_mhs.php\">Mengisi Log</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
+			";
+							
 		}
-	
-	
-	?>
+	  elseif($status=="dosen"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
+			
+			";  
+	  }
+	  elseif($status=="admin"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";    
+	  }
+							?>
+	  
+    </ul>
+  </div>
+</nav>
+
 
 <div class="jumbotron text-center">
   <h1><b>Daftar Lowongan</b></h1>
@@ -55,12 +71,12 @@
 
 </div>
 <div class="container">
-
 		
   <div class="row">
   <div class="col-md-12">
-    <div class="table-responsive">
-      <table class="table">
+	
+    <div class="table-responsive" style="padding-top:10px">
+      <table class="table table-bordered">
     <thead>
       <tr class="success">
         <th>Kode</th>
@@ -76,40 +92,52 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-		<td>CS1232</td>
-        <td>Basis Data</td>
-        <td>Daniel</td>
-		<td>Tutup</td>
-		<td>1</td>
-		<td>1</td>
-		<td>1</td>
-      </tr>
-      <tr class="success">
-      <td>CS1234</td>
-        <td>Basis Data Lanjut</td>
-        <td>Anto, Bimo</td>
-		<td>Buka</td>
-		<td>3</td>
-		<td>3</td>
-		<td>2</td>
-		<td>Melamar</td>
-		<td><button type="button" class="btn btn-success">Batal</button></td>
-      </tr>
-	  <tr>
-        <td>CS1233</td>
-        <td>Dasar-dasar Pemrograman</td>
-        <td>Charlie</td>
-		<td>Buka</td>
-		<td>2</td>
-		<td>1</td>
-		<td>0</td>
-		<td></td>
-		<td><button type="button" class="btn btn-success">Daftar</button></td>
-		
-      </tr>
-	  
-	  
+     
+	<?php
+	$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+	$result = pg_query($dbconn, "select b.kode_mk, c.nama namamk, d.nama namadosen, case a.status when true then 'Buka' else 'Tutup' end status, 
+					SUM(a.jumlah_asisten) jumlahlowongan, SUM(a.jml_pelamar) jml_pelamar, SUM(a.jml_pelamar_diterima) jml_pelamar_diterima,
+					case e.id_st_lamaran when 1 then 'Melamar' else 'Direkomendasikan' end id_st_lamaran from lowongan a
+					inner join kelas_mk b on a.idkelasmk = b.idkelasmk
+					inner join mata_kuliah c on c.kode = b.kode_mk
+					inner join dosen d on a.nipdosenpembuka = d.nip
+					inner join lamaran e on a.idlowongan = e.idlamaran
+					group by a.status, b.kode_mk, c.nama, d.nama, e.id_st_lamaran
+					order by c.nama");
+	
+	if (!$result) {
+	  echo "An error occurred.\n";
+	  exit;
+	}
+	
+	$rows = pg_numrows($result);
+	
+	if($rows >= 1){
+									
+									while($log = pg_fetch_array($result)){
+									echo "<tr>".
+										"<td>".$log[0]."</td>".
+										"<td>".$log[1]."</td>".
+										"<td>".$log[2]."</td>".
+										"<td>".$log[3]."</td>".
+										"<td>".$log[4]."</td>".
+										"<td>".$log[5]."</td>".
+										"<td>".$log[6]."</td>".
+										"<td>".$log[7]."</td>".
+										"<td class=\"text-center\">
+										<button class=\"btn btn-primary btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" >
+												<span class=\"glyphicon glyphicon-pencil\"></span>
+											</button>
+											
+										</td>
+										
+										</tr>";
+					
+									   
+									}
+								}
+	
+	?>
 	  
    
     </tbody>

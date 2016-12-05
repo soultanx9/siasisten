@@ -2,12 +2,70 @@
 <html>
 <head>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/lihat-lowongan.css">
+	<script src="javascript/jquery.min.js"></script>
+	<script src="javascript/bootstrap.js"></script>
+	<script>
+		function validateForm() {
+				var kode = document.forms["myForm"]["kode"].value;
+				var mata_kuliah = document.forms["myForm"]["mata_kuliah"].value;
+				var dosen = document.forms["myForm"]["dosen"].value;
+				var status = document.forms["myForm"]["status"].value;
+				if (kode == "") {
+					alert("kode harus diisi");
+					return false;
+				}if (mata_kuliah == "") {
+					alert("mata_kuliah harus diisi");
+					return false;
+				}if (dosen == "") {
+					alert("jam mulai harus diisi");
+					return false;
+				}if (status == "") {
+					alert("jam selesai harus dipilih");
+					return false;
+				}	
+			}
+			</script>
 	<meta charset="UTF-8">
 	<meta name="description" content="LOWONGAN">
 
+			
+	
 <title>Lowongan Asisten</title>
 </head>
 <body>
+
+<?php
+	$tmperror="";
+	if(isset($_GET["kode"])){
+			$kode = $_GET["kode"];
+			$mata_kuliah = $_GET["mata_kuliah"];
+			$dosen = $_GET["dosen"];
+			$status = substr($_GET["status"],0,1);
+			$nip =	"197107201998031001";		
+			$default = 'DDP';
+			$conn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+			$result = pg_query($conn, "select max(idlowongan) from lowongan");
+			$idlowongan;		
+			while($tmp = pg_fetch_array($result)){
+				$idlowongan = $tmp[0]+1;
+			}
+			$sql = "INSERT into lowongan (idlowongan, idkelasmk, status, jumlah_asisten, syarat_tambahan, nipdosenpembuka) 
+			VALUES('$idlowongan',21000,'$status',3,$default,'$nip')";
+			
+						
+			if(pg_query($conn, $sql)){
+			$tmperror = "<div class=\"alert alert-success fade in\">
+								<a href=\"#\" class=\"close\" data-dismiss\=\"alert\">&times;</a>Penyimpanan berhasil
+										
+							</div>";
+			}else{
+				$tmperror = "something wrong";
+			}
+		}
+	
+	
+	?>
 
 <div class="jumbotron text-center">
   <h1><b>Daftar Lowongan</b></h1>
@@ -20,8 +78,8 @@
   <div class="row">
   <div class="col-md-12">
 	<button type="button" class="btn btn-success">Tambah</button>
-    <div class="table-responsive">
-      <table class="table">
+    <div class="table-responsive" style="padding-top:10px">
+      <table class="table table-bordered">
     <thead>
       <tr class="success">
         <th>Kode</th>
@@ -32,63 +90,118 @@
 		<th>Jumlah Pelamar</th>
 		<th>Jumlah Pelamar Diterima</th>
 		<th>Action</th>
-		
-      </tr>
+	</tr>
     </thead>
+	
     <tbody>
-      <tr>
-		<td>CS1232</td>
-        <td>Basis Data</td>
-        <td>Daniel</td>
-		<td>Tutup</td>
-		<td>1</td>
-		<td><a href="lamaran_lihat.html">1</u></a></td>
-		<td>1</td>
-		<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
-		<span class="glyphicon glyphicon-pencil"></span></button>
-		
-        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
-		<span class="glyphicon glyphicon-trash"></span></button>
-		</td>
-      </tr>
-      <tr class="success">
-      <td>CS1234</td>
-        <td>Basis Data Lanjut</td>
-        <td>Anto, Bimo</td>
-		<td>Buka</td>
-		<td>3</td>
-		<td><a href="lamaran_lihat.html">3</u></a></td>
-		<td>2</td>
-		<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
-		<span class="glyphicon glyphicon-pencil"></span></button>
-		
-        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
-		<span class="glyphicon glyphicon-trash"></span></button>
-		</td>
-      </tr>
-	  <tr>
-        <td>CS1233</td>
-        <td>Dasar-dasar Pemrograman</td>
-        <td>Charlie</td>
-		<td>Buka</td>
-		<td>2</td>
-		<td><a href="lamaran_lihat.html">1</u></a></td>
-		<td>0</td>
-		<td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
-		<span class="glyphicon glyphicon-pencil"></span></button>
-		
-        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
-		<span class="glyphicon glyphicon-trash"></span></button>
-		</td>
-		
-      </tr>
-	  
-	  
-	  
-   
+	
+	<?php
+	$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+	$result = pg_query($dbconn, "select b.kode_mk, c.nama namamk, d.nama namadosen, case a.status when true then 'Buka' else 'Tutup' end status, 
+						count(b.kode_mk) jumlahlowongan, SUM(a.jml_pelamar) jml_pelamar, SUM(a.jml_pelamar_diterima) jml_pelamar_diterima  from lowongan a
+						inner join kelas_mk b on a.idkelasmk = b.idkelasmk
+						inner join mata_kuliah c on c.kode = b.kode_mk
+						inner join dosen d on a.nipdosenpembuka = d.nip
+						group by a.status, b.kode_mk, c.nama, d.nama
+						order by c.nama");
+	
+	if (!$result) {
+	  echo "An error occurred.\n";
+	  exit;
+	}
+	
+	$rows = pg_numrows($result);
+	
+	if($rows >= 1){
+									
+									while($log = pg_fetch_array($result)){
+									echo "<tr>".
+										"<td>".$log[0]."</td>".
+										"<td>".$log[1]."</td>".
+										"<td>".$log[2]."</td>".
+										"<td>".$log[3]."</td>".
+										"<td>".$log[4]."</td>".
+										"<td>".$log[5]."</td>".
+										"<td>".$log[6]."</td>".
+										"<td class=\"text-center\">
+											<button class=\"btn btn-primary btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" >
+												<span class=\"glyphicon glyphicon-pencil\"></span>
+											</button>
+											<button class=\"btn btn-danger btn-xs\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" >
+												<span class=\"glyphicon glyphicon-remove\"></span>
+											</button>
+										</td>
+										</tr>";
+					
+									   
+									}
+								}
+	
+	?>
+	
     </tbody>
   </table>
     </div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+				<form name="myForm" action="log_detil_mhs.php" onsubmit="return validateForm()" method="get">
+					
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                    </button>
+                     <h4 class="modal-title" id="myModalLabel">Tambah Lowongan</h4>
+
+                </div>
+                <div class="modal-body">
+
+					  <div class="table-responsive">
+					  <table class="table table-bordered">
+					  <tr>
+						<th>Kode</th>
+						<td><textarea class="form-control" rows="1" id ="kode" name="kode"></textarea></td>
+					  </tr>
+					  <tr>
+						<th>Mata Kuliah</th>
+						<td><textarea class="form-control" rows="1" id ="mata_kuliah" name="mata_kuliah"></textarea></td>
+					  </tr>
+					   <tr>
+						<th>Dosen</th>
+						<td><textarea class="form-control" rows="1" id ="dosen" name="dosen"></textarea></td>
+					  </tr>
+					   <tr>
+						<th class="col-md-4">Status</th>
+						<td><select class="form-control" id = "status" name = "status">
+						<option></option>
+						<?php
+						$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+						$result = pg_query($dbconn, "select * from status_log;");
+						while($kode = pg_fetch_array($result)){
+									echo "<option>".$kode[0]." - ".$kode[1]."</option>";
+						}
+						?>
+						</select></td>
+					  </tr>
+					  </table>
+					</div>
+				
+				
+				
+				</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                    <input type="submit" value="submit" class="btn btn-primary" id="Submit">
+                </div>
+			</form>	
+            </div>
+        </div>
+    </div>
+	</div>
+	</div>
+	
 	</div>
   </div>
 </div>

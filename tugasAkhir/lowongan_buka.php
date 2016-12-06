@@ -95,7 +95,7 @@
 						  <th scope="row">Status</th>
 						  <td><fieldset class="form-group">
 								<input type="checkbox" id="checkbox1">
-								<label for="checkbox1"></label></fieldset>Buka/Tutup
+								<label for="checkbox1">Buka/Tutup</label></fieldset>
 						</td>
 						</tr>
 						<th>Jumlah Asisten dibutuhkan</th>

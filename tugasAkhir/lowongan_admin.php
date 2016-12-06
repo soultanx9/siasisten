@@ -14,7 +14,7 @@
 	<script src="javascript/bootstrap.js"></script>
 	<script>
 		function validateForm() {
-				var kode = document.forms["myForm"]["kode"].value;
+				var term = document.forms["myForm"]["term"].value;
 				var mata_kuliah = document.forms["myForm"]["mata_kuliah"].value;
 				var dosen = document.forms["myForm"]["dosen"].value;
 				var status = document.forms["myForm"]["status"].value;
@@ -184,12 +184,12 @@
 									   
 									}
 								}
-	
-	?>
-	
+?>
     </tbody>
   </table>
     </div>
+	
+	
 	
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="vertical-alignment-helper">
@@ -209,19 +209,31 @@
 					  <div class="table-responsive">
 					  <table class="table table-bordered">
 					  <tr>
-						<th>Kode</th>
+						<th>Term</th>
 						<td><textarea class="form-control" rows="1" id ="kode" name="kode"></textarea></td>
 					  </tr>
 					  <tr>
 						<th>Mata Kuliah</th>
 						<td><textarea class="form-control" rows="1" id ="mata_kuliah" name="mata_kuliah"></textarea></td>
 					  </tr>
+					  <tr>
+						<th>Status</th>
+						<td><textarea class="form-control" rows="1" id ="status" name="status"></textarea></td>
+					  </tr>
+					  <tr>
+						<th>Jumlah Asisten dibutuhkan</th>
+						<td><textarea class="form-control" rows="1" id ="jumlah_asisten" name="jumlah_asisten"></textarea></td>
+					  </tr>
+					  <tr>
+						<th>Syarat tambahan</th>
+						<td><textarea class="form-control" rows="1" id ="syarat_tambahan" name="syarat_tambahan"></textarea></td>
+					  </tr>
 					   <tr>
-						<th>Dosen</th>
+						<th>Daftar Pengajar</th>
 						<td><textarea class="form-control" rows="1" id ="dosen" name="dosen"></textarea></td>
 					  </tr>
 					   <tr>
-						<th class="col-md-4">Status</th>
+						<th class="col-md-3">Status</th>
 						<td><select class="form-control" id = "status" name = "status">
 						<option></option>
 						<?php
@@ -241,7 +253,7 @@
 				</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <input type="submit" value="submit" class="btn btn-primary" id="Submit">
+                    <input type="submit" value="Simpan" class="btn btn-primary" id="Submit">
                 </div>
 			</form>	
             </div>

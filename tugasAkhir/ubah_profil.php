@@ -93,16 +93,11 @@
 			$no_rekening = $_POST["no_rekening"];
 			
 			$query="UPDATE mahasiswa //ini
-					SET (npm, nama, username, password, email, email_aktif, waktu_kosong, nomortelepon, bank, norekening) = 
-					('$firstname','$lastname','$email','$password')
-						WHERE UserName= '$1' and Password = '$oldpassword'";
-			
-			$result1 = pg_query($conn, "select password, email_aktif, waktu_kosong, nomortelepon, bank, norekening
-									from mahasiswa
-									m, telepon_mahasiswa tm
-									where m.npm = '$npm' and tm.npm = '$npm';");
+					SET (password, email_aktif, waktu_kosong, nomortelepon, bank, norekening) = 
+					('$password','$email_aktif','$email_aktif','$waktu_kosong','$nmortelepon','$bank','$norekening',')
+						WHERE npm = '$npm';");
 									
-								if (!$result1) {
+								if (!$query) {
 									echo "An error occurred.\n";
 								exit;
 								}
@@ -118,20 +113,6 @@
 						$norekening = $row[5];
 					}
 				}
-						
-									
-			$sql = "INSERT into log (id, idlamaran, npm, id_kat_log, id_st_log, tanggal, jam_mulai, jam_selesai, deskripsi_kerja) 
-			VALUES('$id','$idlamaran','$npm','$kategori','$default',to_timestamp('$tanggal','YYYY/MM/DD'),to_timestamp('$jam_mulai','YYYY/MM/DD hh24:mi'),to_timestamp('$jam_selesai','YYYY/MM/DD hh24:mi'), '$deskripsi_kerja')";
-			
-						
-			if(pg_query($conn, $sql)){
-			$tmperror = "<div class=\"alert alert-success fade in\">
-								<a href=\"#\" class=\"close\" data-dismiss\=\"alert\">&times;</a>Penyimpanan berhasil
-										
-							</div>";
-			}else{
-				$tmperror = "something wrong";
-			}
 		}
 	
 	?>

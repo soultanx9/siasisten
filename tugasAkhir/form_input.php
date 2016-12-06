@@ -9,7 +9,7 @@
 							FROM lowongan
 							LEFT JOIN kelas_mk ON lowongan.idkelasmk = kelas_mk.idkelasmk
 							LEFT JOIN mata_kuliah ON mata_kuliah.kode = kelas_mk.kode_mk
-							WHERE lowongan.status = 'true' 
+							WHERE lowongan.status = 'true'
 							ORDER BY lowongan.idlowongan ASC
 					";
 					
@@ -112,7 +112,7 @@
 							FROM lowongan
 							LEFT JOIN kelas_mk ON lowongan.idkelasmk = kelas_mk.idkelasmk
 							LEFT JOIN mata_kuliah ON mata_kuliah.kode = kelas_mk.kode_mk
-							WHERE lowongan.status = 'true' AND lowongan.idlowongan = '$id'
+							WHERE lowongan.status = 'true'
 							ORDER BY lowongan.idlowongan ASC
 					";
 					
@@ -124,7 +124,7 @@
 		$tmb = $jmlpel+1;
 		
 		$lamaran_2 = "INSERT into lamaran (idlamaran, npm, idlowongan, id_st_lamaran, ipk, JumlahSKS, nip) 
-									VALUES(200, '1120345090', 765 ,1, '$ipk', '$sks', '197107201998031001')";
+									VALUES(null, '$npm', '$idlowongan','$id_st_lamaran', '$ipk', '$sks', '$nip')";
 		$ra2 = pg_query($conn, $lamaran_2);
 		
 		$lamaran_3 = "UPDATE lowongan SET jml_lamaran = '$tmb' WHERE idlowongan = '$id'";

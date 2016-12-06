@@ -57,23 +57,17 @@ tr:nth-child(even) {
     </div>
     <ul class="nav navbar-nav">
       <li><a href="index.php">Home</a></li>
-      <?php
-	  if($status == "mahasiswa") {
-      echo "<li><a href=\"#\">Melihat Lowongan</a></li>
-			<li><a href=\"#\">Membuat Lamaran</a></li>
-			<li><a href=\"ubah_profil.php\">Mengubah Profil</a></li>
-			<li  class=\"active\"><a href=\"log_mhs.php\">Mengisi Log</a></li>
-			<li><a href=\"logout.php\">Logout</a></li>
-			";
-							
-		}
-	  elseif($status=="dosen"){
+	<?php
+	  
+	  $status = "admin";
+	  
+	  if($status=="dosen"){
 		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
 			<li><a href=\"#\">Melihat Lowongan</a></li>
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"#\">Logout</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
 			
 			";  
 	  }
@@ -83,11 +77,11 @@ tr:nth-child(even) {
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"#\">Logout</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
 			
 			";    
 	  }
-?>
+	?>
 	  
     </ul>
   </div>
@@ -200,9 +194,26 @@ tr:nth-child(even) {
 <br/>
 </table>
 
-<p>
-	Silahkan klik tombol Rekomendasikan jika ingin memilih Andi Sartono sebagai Asisten, Administrator akan menerima lamaran mahasiswa tersebut jika mahasiswa tersebut jika beban jam kerja yang dimiliki oleh mahasiswa tersebut masih memadai 
-</p>
+<?php
+	  
+	  $status = "admin";
+	  
+	   
+	  
+	  if($status=="dosen"){
+		  $value = "Rekomendasikan";
+		echo "<h5>Silahkan klik tombol Rekomendasikan jika ingin memilih Andi Sartono sebagai Asisten, Administrator akan menerima lamaran mahasiswa tersebut jika mahasiswa tersebut jika beban jam kerja yang dimiliki oleh mahasiswa tersebut masih memadai 
+				</h5>
+			";  
+	  }
+	  elseif($status=="admin"){
+		  $value = "Terima";
+		echo "<h5>Silahkan klik tombol Rekomendasikan jika ingin memilih Andi Sartono sebagai Asisten, Administrator akan menerima lamaran mahasiswa tersebut jika mahasiswa tersebut jika beban jam kerja yang dimiliki oleh mahasiswa tersebut masih memadai 
+				</h5>		
+			";    
+	  }
+	?>
+
 <form action="proses_rekom.php" method="post">
-		<input type="submit" class="button" value="Rekomendasikan" style="background-color:#0099FF; "/>
+		<input type="submit" class="button" value='<?php echo $value; ?>' style="background-color:#0099FF; "/>
 </form>

@@ -225,19 +225,13 @@
 						<th>Mata Kuliah</th>
 						<td><textarea class="form-control" rows="1" id ="mata_kuliah" name="mata_kuliah"></textarea></td>
 					  </tr>
-					  <tr>
-						<th class="col-md-3">Status</th>
-						<td><select class="form-control" id = "status" name = "status">
-						<option></option>
-						<?php
-						$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
-						$result = pg_query($dbconn, "select * from status_log;");
-						while($kode = pg_fetch_array($result)){
-									echo "<option>".$kode[0]." - ".$kode[1]."</option>";
-						}
-						?>
-						</select></td>
-					  </tr>
+					  <tr class="success">
+						  <th scope="row">Status</th>
+						  <td><fieldset class="form-group">
+								<input type="checkbox" id="checkbox1">
+								<label for="checkbox1"></label></fieldset>Buka/Tutup
+						</td>
+						</tr>
 						<th>Jumlah Asisten dibutuhkan</th>
 						<td><textarea class="form-control" rows="1" id ="jumlah_asisten" name="jumlah_asisten"></textarea></td>
 					  </tr>

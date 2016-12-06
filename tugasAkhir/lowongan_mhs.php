@@ -125,8 +125,8 @@
 										"<td>".$log[6]."</td>".
 										"<td>".$log[7]."</td>".
 										"<td class=\"text-center\">
-										<button class=\"btn btn-primary btn-xs\" data-title=\"Edit\" data-toggle=\"modal\" data-target=\"#edit\" >
-												<span class=\"glyphicon glyphicon-pencil\"></span>
+										<button type=\"button\" class=\"btn btn-success\" data-toggle= \"modal\" data-target=\"#myModal\">
+																							Daftar		
 											</button>
 											
 										</td>

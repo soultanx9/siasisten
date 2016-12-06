@@ -92,7 +92,10 @@
 			$bank = $_POST["bank"];
 			$no_rekening = $_POST["no_rekening"];
 			
-			
+			$query="UPDATE mahasiswa //ini
+					SET (npm, nama, username, password, email, email_aktif, waktu_kosong, nomortelepon, bank, norekening) = 
+					('$firstname','$lastname','$email','$password')
+						WHERE UserName= '$1' and Password = '$oldpassword'";
 			
 			$result1 = pg_query($conn, "select password, email_aktif, waktu_kosong, nomortelepon, bank, norekening
 									from mahasiswa

@@ -12,7 +12,9 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<meta charset="UTF-8">
 	<meta name="description" content="LOG">
-
+<script src="javascript/jquery.min.js"></script>
+<script src="javascript/bootstrap.js"></script>
+		
 <title>LOG</title>
 </head>
 <body>
@@ -141,6 +143,9 @@ where mk.kode_mk = m.kode order by mk.idkelasmk asc;");
   </table>
     
   </div>
+  
+
+
 </div>
 
 

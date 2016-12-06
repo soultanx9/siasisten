@@ -48,10 +48,28 @@ $dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres pas
 										"<td>".$log[2]."</td>".
 										"<td>".$log[3]."</td>".
 										"<td>".$log[4]."</td>".
-										"<td>".$log[5]."</td>".
-										(($log[5]!="dilaporkan")?"<td id=".$log[7]."show"."><button id='$log[7]' class=\"btn btn-danger btn-xs btnstatus \" data-toggle=\"modal\" data-target=\"#delete\" value=5 >Batal</button></td>":"<td id=".$log[7]."show"."class=\"text-center\" id='$log[7]+\"hide\"'><button id=".$log[7]." class=\"btn btn-success btn-xs btnstatus\" data-toggle=\"modal\" data-target=\"#edit\" value=3>Setujui</button>
-								
-										<button class=\"btn btn-danger btn-xs btnstatus\" data-title=\"Delete\" data-toggle=\"modal\" data-target=\"#delete\" button id='$log[7]' value=4>tolak</button>	</td>")."</tr>";
+										"<td id = '$log[7]val'>".$log[5]."</td>".
+										(($log[5]!="dilaporkan" && $log[5]!="-" )?
+										"<td class=\"text-center\">
+										<div id = '$log[7]hidebtn'>
+										<button class=\"btn btn-danger btn-xs btnstatus \" value=5 onclick=\"SwitchButtons('$log[7]',5,'$log[7]showbtn')\"; >Batal</button>
+										</div>
+										<div id = '$log[7]showbtn' style='display:none'>
+										<button class=\"btn btn-success btn-xs btnstatus \" value=3 onclick=\"SwitchButtons('$log[7]',2,'$log[7]hidebtn')\"; >Setujui</button>
+										<button class=\"btn btn-danger btn-xs btnstatus \" value=4 onclick=\"SwitchButtons('$log[7]',3,'$log[7]hidebtn')\"; >Tolak</button>
+										</div>										
+										</td>":
+										"<td class=\"text-center\">
+										<div id = '$log[7]hidebtn' style='display:none'>
+										<button class=\"btn btn-danger btn-xs btnstatus \" value=5 onclick=\"SwitchButtons('$log[7]',5,'$log[7]showbtn')\"; >Batal</button>
+										</div>
+										<div id = '$log[7]showbtn'>
+										<button class=\"btn btn-success btn-xs btnstatus \" value=3 onclick=\"SwitchButtons('$log[7]',2,'$log[7]hidebtn')\"; >Setujui</button>
+										<button class=\"btn btn-danger btn-xs btnstatus \" value=4 onclick=\"SwitchButtons('$log[7]',3,'$log[7]hidebtn')\"; >Tolak</button>
+										</div>										
+										</td>"
+										).
+										"</tr>";
 										
 										
 									   

@@ -100,7 +100,7 @@ where lo.idkelasmk=".$id_kelas_mk." and lo.idlowongan=l.idlowongan and l.id_st_l
 	}
 	$rows = pg_numrows($result);
 	if ($rows >= 1) {
-	while ($row = pg_fetch_row($result)) {
+	  while ($row = pg_fetch_row($result)) {
 	  echo "<tr><td>".$id."</td><td>".$row[0]."</td>"; 
 	  $id = $id+1;
 	  

@@ -19,7 +19,34 @@ $npm = $_GET['npm'];
 	<script src="javascript/bootstrap.js"></script>
 	<script type="text/javascript">
 	
+	function SwitchButtons(buttonid,val,target) {
+					  $.ajax({
+								 data: {
+								  id:buttonid,
+								  value:val,
+								 },
+								 type: "post",
+								 url: "log_status_lamaran.php",
+								 success: function(data){
+								  	  document.getElementById(buttonid+"val").innerHTML=data; 
+	
+								 }
+						});
+					  var hideBtn, showBtn, menuToggle;
+					  if (val == 5) {
+						var tmp = buttonid+"hidebtn";
+						showBtn = target;
+						hideBtn = tmp;
+					  } else {
+						var tmp = buttonid+"showbtn";
+						showBtn = target;
+						hideBtn = tmp;
+					  }
+					  document.getElementById(hideBtn).style.display = 'none'; //step 2 :additional feature hide button
+					  document.getElementById(showBtn).style.display = ''; //step 3:additional feature show button
 
+
+					}
 		 
 
 	function fetch_select(val,id,nama,npm)
@@ -35,26 +62,6 @@ $npm = $_GET['npm'];
 		 },
 		 success: function (response) {
 		  document.getElementById("log").innerHTML=response; 
-		  $(".btnstatus").on('click', function (e) {
-			  	 alert(this.id);
-			
-			$.ajax({
-							url: "log_status_lamaran.php",
-							type: 'post',
-							data:{
-							valbtn:this.value
-							
-							},
-							success: function(response){
-							
-								$(".hides").hide();
-								$("#show").show();
-
-								
-							}
-						});
-			
-		});
 		 }
 		 });
 		 

@@ -6,6 +6,7 @@
 	$npm_mhs = $_SESSION['id'];
 	
 	 ?>
+	 
 
 <style>
 *{
@@ -44,18 +45,55 @@ tr:nth-child(even) {
  }
 </style>
 
-<script>
- 	function hanyaAngka(evt) {
-		var charCode = (evt.which) ? evt.which : event.keyCode
-		if (charCode > 31 && (charCode < 48 || charCode > 57))
-		return false;
-		return true;
-	}
-</script>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<meta charset="UTF-8">
+	<meta name="description" content="Detail Pelamar">
 
-<div class="jumbotron text-center">
-	<h1><b>Data Pelamaran</b></h1>
-</div>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Home</a></li>
+      <?php
+	  if($status == "mahasiswa") {
+      echo "<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Membuat Lamaran</a></li>
+			<li><a href=\"ubah_profil.php\">Mengubah Profil</a></li>
+			<li  class=\"active\"><a href=\"log_mhs.php\">Mengisi Log</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
+			";
+							
+		}
+	  elseif($status=="dosen"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";  
+	  }
+	  elseif($status=="admin"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";    
+	  }
+?>
+	  
+    </ul>
+  </div>
+</nav>
+
+ 
 
 <table cellspacing="0" cellpadding="0">
   <?php
@@ -91,7 +129,9 @@ tr:nth-child(even) {
 		$norek = $row[5]." - ".$row[6]." a/n ".$row[7];
 		
 		
-		echo 	"<tr><td><b>".$tnm."</b></td><td>".$nama."</td></tr>"."
+		echo 	"
+				<h3><b>Detail Pelamar </b></h3>
+				<tr><td><b>".$tnm."</b></td><td>".$nama."</td></tr>"."
 				<tr><td><b>".$temail."</b></td><td>".$email."</td></tr>"."
 				<tr><td><b>".$tnpm."</b></td><td>".$npm."</td></tr>"."
 				<tr><td><b>".$tphone."</b></td><td>".$telepon."</td></tr>"."
@@ -103,9 +143,6 @@ tr:nth-child(even) {
 </table>
 <br/>
 
-<div class="jumbotron text-center">
-	<h1><b>Riwayat Akademis </b></h1>
-</div>
 <table cellspacing="0" cellpadding="0">
 	<?php
 	$npm =	"1306481235";
@@ -119,7 +156,7 @@ tr:nth-child(even) {
 	  echo "An error occurred.\n";
 	  exit;
 	}
-	
+	echo "<h3><b>Riwayat Akademis</b></h3>";
 	$rows = pg_numrows($result2);
 	if ($rows >= 1) {
 	while ($row = pg_fetch_row($result2)) {

@@ -9,7 +9,7 @@
 							FROM lowongan
 							LEFT JOIN kelas_mk ON lowongan.idkelasmk = kelas_mk.idkelasmk
 							LEFT JOIN mata_kuliah ON mata_kuliah.kode = kelas_mk.kode_mk
-							WHERE lowongan.status = 'true' AND lowongan.idlowongan = '109'
+							WHERE lowongan.status = 'true' 
 							ORDER BY lowongan.idlowongan ASC
 					";
 					

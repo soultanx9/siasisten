@@ -208,31 +208,24 @@
 
 					  <div class="table-responsive">
 					  <table class="table table-bordered">
-					  <tr>
-						<th>Term</th>
-						<td><textarea class="form-control" rows="1" id ="kode" name="kode"></textarea></td>
+					 <tr>
+						<th class="col-md-3">Term</th>
+						<td><select name="termOption" class="form-control" onchange=<?php $nama = str_replace(' ', '_', $nama); echo "fetch_select(this.value,'$id','$nama','$npm')";?>>
+						<option>Pilih Term</option>
+						<?php
+						$dbconn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+						$result = pg_query($dbconn, "select * FROM TERM;");
+						while($term = pg_fetch_array($result)){
+									if($term[1]==1)
+									echo "<option>Ganjil, ".$term[0]."</option>";
+						}
+						?>
+						</select></td>
 					  </tr>
-					  <tr>
 						<th>Mata Kuliah</th>
 						<td><textarea class="form-control" rows="1" id ="mata_kuliah" name="mata_kuliah"></textarea></td>
 					  </tr>
 					  <tr>
-						<th>Status</th>
-						<td><textarea class="form-control" rows="1" id ="status" name="status"></textarea></td>
-					  </tr>
-					  <tr>
-						<th>Jumlah Asisten dibutuhkan</th>
-						<td><textarea class="form-control" rows="1" id ="jumlah_asisten" name="jumlah_asisten"></textarea></td>
-					  </tr>
-					  <tr>
-						<th>Syarat tambahan</th>
-						<td><textarea class="form-control" rows="1" id ="syarat_tambahan" name="syarat_tambahan"></textarea></td>
-					  </tr>
-					   <tr>
-						<th>Daftar Pengajar</th>
-						<td><textarea class="form-control" rows="1" id ="dosen" name="dosen"></textarea></td>
-					  </tr>
-					   <tr>
 						<th class="col-md-3">Status</th>
 						<td><select class="form-control" id = "status" name = "status">
 						<option></option>
@@ -245,6 +238,18 @@
 						?>
 						</select></td>
 					  </tr>
+						<th>Jumlah Asisten dibutuhkan</th>
+						<td><textarea class="form-control" rows="1" id ="jumlah_asisten" name="jumlah_asisten"></textarea></td>
+					  </tr>
+					  <tr>
+						<th>Syarat tambahan</th>
+						<td><textarea class="form-control" rows="1" id ="syarat_tambahan" name="syarat_tambahan"></textarea></td>
+					  </tr>
+					   <tr>
+						<th>Daftar Pengajar</th>
+						<td><textarea class="form-control" rows="1" id ="dosen" name="dosen"></textarea></td>
+					  </tr>
+					   
 					  </table>
 					</div>
 				

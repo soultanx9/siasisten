@@ -30,29 +30,29 @@
 	  if($status == "mahasiswa") {
       echo "<li><a href=\"#\">Melihat Lowongan</a></li>
 			<li><a href=\"#\">Membuat Lamaran</a></li>
-			<li><a href=\"ubah_profil.php\">Mengubah Profil</a></li>
+			<li><a href=\"#\">Mengubah Profil</a></li>
 			<li><a href=\"log_mhs.php\">Mengisi Log</a></li>
-			<li><a href=\"logout.php\">Logout</a></li>
+			<li><a href=\"#\">Logout</a></li>
 			";
 							
 		}
 	  elseif($status=="dosen"){
-		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
-			<li><a href=\"#\">Melihat Lowongan</a></li>
+		echo "<li><a href=\"lowongan_buka.php\">Membuka Lowongan</a></li>
+			<li><a href=\"lowongan_admin.php\">Melihat Lowongan</a></li>
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"logout.php\">Logout</a></li>
+			<li><a href=\"#\">Logout</a></li>
 			
 			";  
 	  }
 	  elseif($status=="admin"){
-		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
-			<li><a href=\"#\">Melihat Lowongan</a></li>
+		echo "<li><a href=\"lowongan_buka.php\">Membuka Lowongan</a></li>
+			<li><a href=\"lowongan_admin.php\">Melihat Lowongan</a></li>
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"logout.php\">Logout</a></li>
+			<li><a href=\"#\">Logout</a></li>
 			
 			";    
 	  }

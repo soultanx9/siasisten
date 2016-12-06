@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<?php 
+	//setname dan post_id
+	session_start(); // Starting Session
+	$uname = $_SESSION['userlogin'];
+	$status = $_SESSION['status'];
+	$id = $_SESSION['id'];
+?>
+
 <html>
 <head>
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -8,6 +15,48 @@
 <title>Profil</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.php">Home</a></li>
+      <?php
+	  if($status == "mahasiswa") {
+      echo "<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Membuat Lamaran</a></li>
+			<li><a href=\"ubah_profil.php\">Mengubah Profil</a></li>
+			<li  class=\"active\"><a href=\"log_mhs.php\">Mengisi Log</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
+			";
+							
+		}
+	  elseif($status=="dosen"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";  
+	  }
+	  elseif($status=="admin"){
+		echo "<li><a href=\"#\">Membuka Lowongan</a></li>
+			<li><a href=\"#\">Melihat Lowongan</a></li>
+			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
+			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
+			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
+			<li><a href=\"#\">Logout</a></li>
+			
+			";    
+	  }
+							?>
+	  
+    </ul>
+  </div>
+</nav>
 
 <div class="jumbotron text-center">
   <h1><b>Profil</b></h1>
@@ -151,24 +200,6 @@
 		<th>No. Rekening</th>
 		<td><input type="no-rekening" class="form-control" id="norek"></td>
 	</tr>
-	
-	<?php
-		$target_dir = "uploads/";
-		$target_file = $target_dir;
-		$uploadOk = 1;
-		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-		// Check if image file is a actual image or fake image
-		if(isset($_POST["submit"])) {
-			$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-			if($check !== false) {
-				echo "File is an image - " . $check["mime"] . ".";
-				$uploadOk = 1;
-			} else {
-				echo "File is not an image.";
-				$uploadOk = 0;
-			}	
-		}
-	?>
 	
 	<tr>
 		<th>Halaman muka buku tabungan (*.jpg)</th>

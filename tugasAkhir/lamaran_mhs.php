@@ -128,8 +128,12 @@
 										"<td>".$log[6]."</td>".
 										"<td>".$log[7]."</td>".
 										"<td class=\"text-center\">
-										<a href=\"form_input.php\"><button class=\"btn btn-primary\" style=\"height:30px; width:70px;\" value=\"Batal\" id=\"Batal\" style=\"background-color:#0999FF;\">
+										<a href=\"form_input.php\"><button class=\"btn btn-primary active\" style=\"height:30px; width:70px;\" value=\"Batal\" id=\"Batal\" style=\"background-color:#0999FF;\">
 												<span class=\"button\" >lamar</span>
+												
+											</button></a>
+										<a href=\"lamaran_lihat.php\"><button class=\"btn btn-primary\" style=\"height:30px; width:70px;\" value=\"Batal\" id=\"Batal\" style=\"background-color:#0999FF;\">
+												<span class=\"button\" >Peminat</span>
 											</button></a>
 										</td>
 										</tr>";

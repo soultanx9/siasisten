@@ -32,7 +32,7 @@
 			<li><a href=\"#\">Membuat Lamaran</a></li>
 			<li><a href=\"#\">Mengubah Profil</a></li>
 			<li><a href=\"log_mhs.php\">Mengisi Log</a></li>
-			<li><a href=\"#\">Logout</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
 			";
 							
 		}
@@ -42,7 +42,7 @@
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"#\">Logout</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
 			
 			";  
 	  }
@@ -52,7 +52,7 @@
 			<li><a href=\"#\">Melihat Daftar Pelamar</a></li>
 			<li><a href=\"#\">Melihat Detail Pelamar</a></li>
 			<li><a href=\"log_dosen.php\">Menyetujui Log</a></li>
-			<li><a href=\"#\">Logout</a></li>
+			<li><a href=\"logout.php\">Logout</a></li>
 			
 			";    
 	  }

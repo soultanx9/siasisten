@@ -92,27 +92,22 @@
 			$bank = $_POST["bank"];
 			$no_rekening = $_POST["no_rekening"];
 			
+			$conn = pg_connect("host=localhost port=5432 dbname=postgres user=postgres password=basdat") or die('connection failed');
+			
 			$query="UPDATE mahasiswa //ini
 					SET (password, email_aktif, waktu_kosong, nomortelepon, bank, norekening) = 
 					('$password','$email_aktif','$email_aktif','$waktu_kosong','$nmortelepon','$bank','$norekening',')
-						WHERE npm = '$npm';");
+						WHERE npm = '$npm';";
 									
 								if (!$query) {
 									echo "An error occurred.\n";
 								exit;
 								}
-	
-			$rows = pg_numrows($result1);
-				if ($rows >= 1) {
-					while ($row = pg_fetch_row($result1)) {
-						$password = $row[0];
-						$email_aktif = $row[1];
-						$waktu_kosong = $row[2];
-						$nomortelepon = $row[3];
-						$bank = $row[4];
-						$norekening = $row[5];
-					}
-				}
+								
+								$result=pg_query($conn,$query);
+								$row_count= pg_num_rows($result);
+								pg_free_result($result);
+								pg_close($dbconn);
 		}
 	
 	?>
@@ -130,7 +125,7 @@
 	</tr>
 	<tr>
 		<th>Password</th>
-		<td><input type="password" class="form-control" id="pwd" ></td>
+		<td><input type="password" class="form-control" id="password"></td>
 	</tr>
 	<tr>
 		<th>Email</th>
@@ -138,23 +133,23 @@
 	</tr>
 	<tr>
 		<th>Email Aktif</th>
-		<td><input type="email-aktif" class="form-control" id="email-aktif" name='Email Aktif' value='<?php echo $email_aktif; ?>'></td>
+		<td><input type="email-aktif" class="form-control" id="email_aktif"></td>
 	</tr>
 	<tr>
 		<th>Waktu Kosong</th>
-		<td><input type="waktu-kosong" class="form-control" id="wk" name='Waktu Kosong' value='<?php echo $waktu_kosong; ?>'></td>
+		<td><input type="waktu-kosong" class="form-control" id="waktu_kosong"></td>
 	</tr>
 	<tr>
 		<th>No. Telp.</th>
-		<td><input type="no-telp" class="form-control" id="np" name='Nomor Telepon' value='<?php echo $nomortelepon; ?>'></td>
+		<td><input type="no-telp" class="form-control" id="no_telepon"></td>
 	</tr>
 	<tr>
 		<th>Bank</th>
-		<td><input type="bank" class="form-control" id="bk" name='Bank' value='<?php echo $bank; ?>'></td>
+		<td><input type="bank" class="form-control" id="bk"></td>
 	</tr>
 	<tr>
 		<th>No. Rekening</th>
-		<td><input type="no-rekening" class="form-control" id="norek" name='Nomor Rekening' value='<?php echo $norekening; ?>'></td>
+		<td><input type="no-rekening" class="form-control" id="norek"></td>
 	</tr>
 	
 	<?php
